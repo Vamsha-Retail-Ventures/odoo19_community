@@ -1,0 +1,15 @@
+# === Core Environment Secrets ===
+.env
+*.env
+!.env.example
+
+# === Odoo Configurations & Cache ===
+config/odoo.conf
+*.log
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# === IDE & OS Specifics ===
+.DS_Store
+.vscode/

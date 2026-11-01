@@ -1,0 +1,39 @@
+{
+  "name": "Odoo v19 Community Environment",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "web",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "root",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.debugpy",
+        "innovera.odoo-snippets",
+        "trinhanhngoc.vscode-odoo",
+        "redhat.vscode-xml"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "python.analysis.extraPaths": [
+          "/usr/lib/python3/dist-packages",
+          "/workspace/custom_addons"
+        ],
+        "python.analysis.typeCheckingMode": "off"
+      }
+    }
+  },
+  "forwardPorts": [8069, 8072],
+  "portsAttributes": {
+    "8069": {
+      "label": "Odoo v19 Web HTTP",
+      "onAutoForward": "notify"
+    },
+    "8072": {
+      "label": "Odoo v19 Gevent / Livechat",
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": "sed -i \"s|\\${ODOO_ADMIN_PASSWD}|${ODOO_ADMIN_PASSWD:-odoo_master_super_secure_pass}|g\" /etc/odoo/odoo.conf 2>/dev/null || true && chown -R odoo:odoo /var/lib/odoo /etc/odoo /workspace/custom_addons && echo 'Odoo v19 Dev Environment fully initialized!'"
+}

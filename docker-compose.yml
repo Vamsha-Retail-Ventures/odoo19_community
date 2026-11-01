@@ -1,0 +1,42 @@
+services:
+  web:
+    image: odoo:19.0
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    volumes:
+      - .:/workspace:cached
+      - ./config:/etc/odoo
+      - odoo-web-data:/var/lib/odoo
+    environment:
+      - HOST=db
+      - PORT=5432
+      - USER=${DB_USER:-odoo}
+      - PASSWORD=${DB_PASSWORD:-odoo_secure_db_pass_2026}
+      - ODOO_ADMIN_PASSWD=${ODOO_ADMIN_PASSWD:-odoo_master_super_secure_pass}
+    # Auto-reloads Python changes and XML/QWeb views without manually restarting the container
+    command: odoo --dev=reload,qweb,xml
+    restart: unless-stopped
+
+  db:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=${DB_USER:-odoo}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-odoo_secure_db_pass_2026}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  odoo-web-data:
+  odoo-db-data:
