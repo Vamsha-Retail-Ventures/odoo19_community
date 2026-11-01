@@ -6,7 +6,7 @@
 
 ### Option A: Using GitHub Codespaces Secrets (Recommended)
 1. Go to your GitHub Repository **Settings** &rarr; **Secrets and variables** &rarr; **Codespaces**.
-2. Add `DB_USER`, `DB_PASSWORD`, and `ODOO_ADMIN_PASSWD`.
+2. Add `POSTGRES_USER` (or `USER`), `POSTGRES_PASSWORD` (or `PASSWORD`), and `ODOO_ADMIN_PASSWORD`.
 3. Launch the Codespace—everything will configure and start automatically.
 
 ### Option B: Manual `.env` Setup

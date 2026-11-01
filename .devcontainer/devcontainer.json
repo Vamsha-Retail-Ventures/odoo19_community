@@ -35,5 +35,5 @@
       "onAutoForward": "silent"
     }
   },
-  "postCreateCommand": "sed -i \"s|\\${ODOO_ADMIN_PASSWD}|${ODOO_ADMIN_PASSWD:-odoo_master_super_secure_pass}|g\" /etc/odoo/odoo.conf 2>/dev/null || true && chown -R odoo:odoo /var/lib/odoo /etc/odoo /workspace/custom_addons && echo 'Odoo v19 Dev Environment fully initialized!'"
+  "postCreateCommand": "sed -i \"s|\\${ODOO_ADMIN_PASSWORD}|${ODOO_ADMIN_PASSWORD:-${ODOO_ADMIN_PASSWD:-odoo_master_super_secure_pass}}|g; s|\\${ODOO_ADMIN_PASSWD}|${ODOO_ADMIN_PASSWORD:-${ODOO_ADMIN_PASSWD:-odoo_master_super_secure_pass}}|g\" /etc/odoo/odoo.conf 2>/dev/null || true && chown -R odoo:odoo /var/lib/odoo /etc/odoo /workspace/custom_addons && echo 'Odoo v19 Dev Environment fully initialized!'"
 }
