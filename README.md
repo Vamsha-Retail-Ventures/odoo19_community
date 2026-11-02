@@ -1,4 +1,4 @@
-# Vamsha Community (Odoo v19)
+# Community (Odoo v19)
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/)
 
