@@ -3,6 +3,12 @@
 *.env
 !.env.example
 
+# === Database Backups & Dumps ===
+backups/
+*.sql
+*.sql.gz
+*.dump
+
 # === Odoo Configurations & Cache ===
 config/odoo.conf
 *.log

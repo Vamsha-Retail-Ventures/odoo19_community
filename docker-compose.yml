@@ -1,14 +1,18 @@
 services:
   web:
     image: odoo:19.0
+    container_name: vamsha-odoo19-community-web
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - odoo-network
     ports:
       - "8069:8069"
       - "8072:8072"
     volumes:
       - .:/workspace:cached
+      - ./custom_addons:/mnt/extra-addons
       - ./config:/etc/odoo
       - odoo-web-data:/var/lib/odoo
     environment:
@@ -22,9 +26,17 @@ services:
     # Auto-reloads Python changes and XML/QWeb views without manually restarting the container
     command: odoo --dev=reload,qweb,xml
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   db:
     image: postgres:16
+    container_name: vamsha-odoo19-community-db
+    networks:
+      - odoo-network
     environment:
       - POSTGRES_DB=${POSTGRES_DB:-postgres}
       - POSTGRES_USER=${POSTGRES_USER:-${USER:-odoo}}
@@ -38,6 +50,15 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  odoo-network:
+    driver: bridge
 
 volumes:
   odoo-web-data:
